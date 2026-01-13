@@ -18,6 +18,11 @@ class Settings(BaseSettings):
     # Agent configuration
     STREAM_DELAY: float = 0.1  # Delay between events for demonstration
     
+    # GitHub configuration
+    GITHUB_TOKEN: Optional[str] = None
+    GITHUB_DEFAULT_USER: str = "octocat"
+    CACHE_TTL: int = 300  # 5 minutes
+    
     class Config:
         env_file = ".env"
         case_sensitive = True

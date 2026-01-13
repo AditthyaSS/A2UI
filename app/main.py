@@ -5,7 +5,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
-from typing import AsyncGenerator
+from typing import AsyncGenerator, Optional
 
 from app.config import settings
 from app.agent.brain import AgentBrain
@@ -17,6 +17,17 @@ from app.agent.events import (
     create_render_event,
     create_error_event
 )
+
+# Try to import GitHub connector
+try:
+    from app.connectors.github_connector import GitHubConnector
+    github_connector = GitHubConnector(
+        token=settings.GITHUB_TOKEN,
+        cache_ttl=settings.CACHE_TTL
+    )
+except Exception as e:
+    print(f"GitHub connector unavailable: {e}")
+    github_connector = None
 
 
 app = FastAPI(
@@ -38,14 +49,15 @@ app.add_middleware(
 class QueryRequest(BaseModel):
     """Request model for agent queries."""
     query: str
+    username: Optional[str] = None  # Optional GitHub username
 
 
-# Initialize agent components
-brain = AgentBrain()
+# Initialize agent components with GitHub connector
+brain = AgentBrain(github_connector=github_connector)
 ui_decider = UIDecider()
 
 
-async def agent_stream(query: str) -> AsyncGenerator[str, None]:
+async def agent_stream(query: str, username: Optional[str] = None) -> AsyncGenerator[str, None]:
     """Generate AG-UI event stream for a query.
     
     Pipeline:
@@ -57,6 +69,7 @@ async def agent_stream(query: str) -> AsyncGenerator[str, None]:
     
     Args:
         query: User's natural language query
+        username: Optional GitHub username
         
     Yields:
         SSE-formatted AG-UI events
@@ -72,7 +85,7 @@ async def agent_stream(query: str) -> AsyncGenerator[str, None]:
         yield format_event(loading_event)
         await asyncio.sleep(settings.STREAM_DELAY)
         
-        reasoning = brain.reason(query)
+        reasoning = brain.reason(query, username)
         
         # Step 3: UI Decision
         loading_event = create_loading_event("Composing dashboard...")
@@ -103,17 +116,17 @@ async def agent_stream(query: str) -> AsyncGenerator[str, None]:
 async def stream_agent_response(request: QueryRequest):
     """Stream AG-UI events for a user query.
     
-    This is the primary endpoint for Anti Gravity.
+    This is the primary endpoint for AGUI.
     Accepts a natural language query and streams AG-UI events.
     
     Args:
-        request: Query request
+        request: Query request with optional username
         
     Returns:
         Server-Sent Events stream
     """
     return StreamingResponse(
-        agent_stream(request.query),
+        agent_stream(request.query, request.username),
         media_type="text/event-stream",
         headers={
             "Cache-Control": "no-cache",
@@ -145,7 +158,8 @@ async def root():
             "health": "GET /health - Health check"
         },
         "protocol": "AG-UI",
-        "specification": "A2UI"
+        "specification": "A2UI",
+        "github_connected": gh boolean_connector is not None
     }
 
 
