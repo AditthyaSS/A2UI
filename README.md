@@ -75,18 +75,16 @@ curl -X POST http://localhost:8000/agent/stream \
 
 ## 🏗️ Architecture
 
-```mermaid
-graph LR
-    A[User Query] --> B[Reasoning Engine]
-    B --> C[Intent Classifier]
-    C --> D[Insight Extractor]
-    D --> E[UI Decider]
-    E --> F[A2UI Spec]
-    F --> G[Frontend Renderer]
-    
-    style A fill:#667eea
-    style F fill:#f093fb
-    style G fill:#4facfe
+### The Agent Protocol Stack
+
+![AGUI Architecture](docs/architecture.png)
+
+**AGUI implements the AG-UI Protocol** - the bridge between autonomous agents and users.
+
+```
+Tools (MCP) → Agent → AG-UI → Frontend Renderer
+      ↕
+   Agents (A2A)
 ```
 
 ### 🧩 Components
