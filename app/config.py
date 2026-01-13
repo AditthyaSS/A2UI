@@ -8,7 +8,7 @@ class Settings(BaseSettings):
     """Application settings."""
     
     # Server configuration
-    APP_NAME: str = "Anti Gravity Agent"
+    APP_NAME: str = "AGUI"
     APP_VERSION: str = "0.1.0"
     DEBUG: bool = True
     

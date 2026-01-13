@@ -1,4 +1,4 @@
-"""Anti Gravity Reasoning Engine - Intent classification and insight extraction."""
+"""AGUI Reasoning Engine - Intent classification and insight extraction."""
 
 from typing import Literal, Optional
 from pydantic import BaseModel
@@ -27,7 +27,7 @@ class ReasoningResult(BaseModel):
 
 
 class AgentBrain:
-    """Core reasoning engine for Anti Gravity.
+    """Core reasoning engine for AGUI.
     
     Implements the reasoning pipeline:
     1. Intent Classification

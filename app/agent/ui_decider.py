@@ -1,4 +1,4 @@
-"""Anti Gravity UI Decision Logic - Insight-to-component mapping."""
+"""AGUI UI Decision Logic - Insight-to-component mapping."""
 
 from typing import Any
 from app.agent.brain import Insight, ReasoningResult

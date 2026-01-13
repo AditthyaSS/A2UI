@@ -1,4 +1,4 @@
-"""Anti Gravity Agent - FastAPI server with AG-UI event streaming."""
+"""AGUI - FastAPI server with AG-UI event streaming."""
 
 import asyncio
 from fastapi import FastAPI

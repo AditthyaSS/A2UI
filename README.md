@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🌌 Anti Gravity
+# 🌌 AGUI
 
 ### *Autonomous Agentic Product Intelligence*
 
@@ -15,7 +15,7 @@
 
 ---
 
-## 💡 What is Anti Gravity?
+## 💡 What is AGUI?
 
 An AI agent that **thinks in interfaces**. You speak naturally, it builds dashboards autonomously.
 
@@ -273,7 +273,7 @@ Health check endpoint
 
 **Response:**
 ```json
-{"status": "healthy", "service": "Anti Gravity Agent"}
+{"status": "healthy", "service": "AGUI Agent"}
 ```
 
 ---
@@ -285,7 +285,7 @@ Service information
 **Response:**
 ```json
 {
-  "service": "Anti Gravity Agent",
+  "service": "AGUI Agent",
   "version": "0.1.0",
   "protocol": "AG-UI",
   "specification": "A2UI"
@@ -331,7 +331,7 @@ Service information
 
 ### 🌟 Built with Intelligence
 
-**Anti Gravity** - *Where dashboards assemble themselves*
+**AGUI** - *Where dashboards assemble themselves*
 
 [Documentation](#) • [Examples](#) • [API Reference](#api-reference)
 
